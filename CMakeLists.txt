@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.19)
+project(ICU C CXX)
+
+option(ICU_OPT_ENABLE_STATIC "Enable static library build" ON)
+option(ICU_OPT_ENABLE_SHARED "Enable dynamic library build" ON)
+
+if(CMAKE_CROSSCOMPILING)
+    if(CMAKE_SYSTEM_WIN32)
+        set(ICU_OPT_PLATFORM_WINDOWS ON)
+    endif()
+else()
+    if(WIN32)
+        set(ICU_OPT_PLATFORM_WINDOWS ON)
+    endif()
+endif()
+
+if(MSVC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /utf-8")
+endif()
+
+add_subdirectory(stubdata)
+add_subdirectory(common)
+add_subdirectory(i18n)
+add_subdirectory(io)
+add_subdirectory(tools/toolutil)
