@@ -99,7 +99,7 @@ else()
 endif()
 
 # Create preparing targets, for copying all the binaries together
-set(_ICU_PREPARE_TOOL_DIR "${CMAKE_CURRENT_BINARY_DIR}/icutools/")
+set(_ICU_PREPARE_TOOL_DIR "${CMAKE_CURRENT_BINARY_DIR}/icutools/" CACHE INTERNAL "" FORCE)
 
 function(icu_prepare_tool)
     set(ONE_VALUE_ARGS TARGET IMPORT_TARGET GEN_MODE_OUT)
@@ -151,6 +151,7 @@ icu_prepare_tool(TARGET icu_prepare_gendict  IMPORT_TARGET ICU::gendict  GEN_MOD
 icu_prepare_tool(TARGET icu_prepare_icupkg   IMPORT_TARGET ICU::icupkg   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
 icu_prepare_tool(TARGET icu_prepare_genrb    IMPORT_TARGET ICU::genrb    GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
 icu_prepare_tool(TARGET icu_prepare_pkgdata  IMPORT_TARGET ICU::pkgdata  GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+set(_ICU_OPT_TOOL_GEN_MODE ${_ICU_OPT_TOOL_GEN_MODE} CACHE INTERNAL "" FORCE)
 
 # function for generating data file
 
