@@ -241,5 +241,5 @@ function(icu_generate_data)
         VERBATIM)
     add_custom_target(${ICU_GENERATE_DATA_TARGET}
         DEPENDS "${ICU_GENERATE_DATA_OUTPUT_DIR}/${ICU_OPT_DATA_NAME_FULL}.dat")
-    set(${ICU_PREPARE_TOOL_FILENAME_OUT} "${ICU_OPT_DATA_NAME_FULL}.dat" PARENT_SCOPE)
+    set(${ICU_GENERATE_DATA_FILENAME_OUT} "${ICU_OPT_DATA_NAME_FULL}.dat" PARENT_SCOPE)
 endfunction()
