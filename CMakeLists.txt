@@ -112,7 +112,7 @@ function(icu_prepare_tool)
     get_target_property(ICU_PREPARE_TOOL_PLATFORM ${ICU_PREPARE_TOOL_IMPORT_TARGET} TOOL_PLATFORM)
     get_target_property(ICU_PREPARE_TOOL_NAME ${ICU_PREPARE_TOOL_IMPORT_TARGET} BINARY_NAME)
 
-    # 构建后移动到固定目录
+    # moving tools into specific directory after building
     if(ICU_PREPARE_TOOL_PLATFORM STREQUAL "WIN32")
         set(${ICU_PREPARE_TOOL_GEN_MODE_OUT} "windows-exec" PARENT_SCOPE)
         add_custom_command(
@@ -194,6 +194,13 @@ function(icu_generate_data)
     # source data
     set(ICU_OPT_DATA_SOURCE_DIR "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/data")
 
+    # binary path to pkgdata
+    if("${_ICU_OPT_TOOL_GEN_MODE}" STREQUAL "windows-exec")
+        set(ICU_OPT_PKGDATA_PATH "${_ICU_PREPARE_TOOL_DIR}/pkgdata/pkgdata.exe")
+    else()
+        set(ICU_OPT_PKGDATA_PATH "${_ICU_PREPARE_TOOL_DIR}/pkgdata")
+    endif()
+
     # temporary directory for storing data files
     add_custom_command(
         OUTPUT "${ICU_GENERATE_DATA_WORKING_DIR}"
@@ -218,7 +225,7 @@ function(icu_generate_data)
             -s "${ICU_GENERATE_DATA_WORKING_DIR}/${ICU_OPT_DATA_NAME_FULL}"
             ${ICU_GENERATE_DATA_FILTER}
         COMMAND
-            "$<TARGET_FILE:ICU::pkgdata>"
+            "${ICU_OPT_PKGDATA_PATH}"
             -m common
             -p ${ICU_OPT_DATA_NAME_FULL}
             -s "${ICU_GENERATE_DATA_WORKING_DIR}/${ICU_OPT_DATA_NAME_FULL}"
