@@ -13,10 +13,15 @@ else()
     endif()
 endif()
 
+set(CMAKE_CXX_STANDARD 11)
+
 if(MSVC)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /utf-8")
 endif()
+
+include(CheckLinkerFlag)
+check_linker_flag(CXX "-Wl,--no-as-needed" ICU_LINKER_SUPPORTS_NO_AS_NEEDED)
 
 # Core libraries
 add_subdirectory(stubdata)
@@ -83,15 +88,15 @@ else()
 
     export(
         TARGETS
-            icu_gencnval
-            icu_gencfu
-            icu_makeconv
-            icu_genbrk
-            icu_gensprep
-            icu_gendict
-            icu_icupkg
-            icu_genrb
-            icu_pkgdata
+            icu.gencnval
+            icu.gencfu
+            icu.makeconv
+            icu.genbrk
+            icu.gensprep
+            icu.gendict
+            icu.icupkg
+            icu.genrb
+            icu.pkgdata
         NAMESPACE
             ICU::
         FILE
@@ -142,15 +147,15 @@ function(icu_prepare_tool)
     endif()
 endfunction()
 
-icu_prepare_tool(TARGET icu_prepare_gencnval IMPORT_TARGET ICU::gencnval GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_gencfu   IMPORT_TARGET ICU::gencfu   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_makeconv IMPORT_TARGET ICU::makeconv GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_genbrk   IMPORT_TARGET ICU::genbrk   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_gensprep IMPORT_TARGET ICU::gensprep GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_gendict  IMPORT_TARGET ICU::gendict  GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_icupkg   IMPORT_TARGET ICU::icupkg   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_genrb    IMPORT_TARGET ICU::genrb    GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
-icu_prepare_tool(TARGET icu_prepare_pkgdata  IMPORT_TARGET ICU::pkgdata  GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_gencnval IMPORT_TARGET ICU::gencnval GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_gencfu   IMPORT_TARGET ICU::gencfu   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_makeconv IMPORT_TARGET ICU::makeconv GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_genbrk   IMPORT_TARGET ICU::genbrk   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_gensprep IMPORT_TARGET ICU::gensprep GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_gendict  IMPORT_TARGET ICU::gendict  GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_icupkg   IMPORT_TARGET ICU::icupkg   GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_genrb    IMPORT_TARGET ICU::genrb    GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
+icu_prepare_tool(TARGET icu.prepare_pkgdata  IMPORT_TARGET ICU::pkgdata  GEN_MODE_OUT _ICU_OPT_TOOL_GEN_MODE)
 set(_ICU_OPT_TOOL_GEN_MODE ${_ICU_OPT_TOOL_GEN_MODE} CACHE INTERNAL "" FORCE)
 
 # function for generating data file
@@ -237,15 +242,15 @@ function(icu_generate_data)
         DEPENDS
             "${ICU_GENERATE_DATA_WORKING_DIR}"
             "${CMAKE_CURRENT_FUNCTION_LIST_DIR}/python/gen_dep_list.py"
-            icu_prepare_gencnval
-            icu_prepare_gencfu
-            icu_prepare_makeconv
-            icu_prepare_genbrk
-            icu_prepare_gensprep
-            icu_prepare_gendict
-            icu_prepare_icupkg
-            icu_prepare_genrb
-            icu_prepare_pkgdata
+            icu.prepare_gencnval
+            icu.prepare_gencfu
+            icu.prepare_makeconv
+            icu.prepare_genbrk
+            icu.prepare_gensprep
+            icu.prepare_gendict
+            icu.prepare_icupkg
+            icu.prepare_genrb
+            icu.prepare_pkgdata
         VERBATIM)
     add_custom_target(${ICU_GENERATE_DATA_TARGET}
         DEPENDS "${ICU_GENERATE_DATA_OUTPUT_DIR}/${ICU_OPT_DATA_NAME_FULL}.dat")
